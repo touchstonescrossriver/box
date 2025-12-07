@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>个人健身记录</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <header class="app-header">
+    <div>
+      <p class="eyebrow">轻量级健身记录</p>
+      <h1>我的训练与体重日志</h1>
+      <p class="subhead">快速记录 | 本地保存 | 可导出 CSV</p>
+    </div>
+    <button id="reset-data" class="ghost">清空本地数据</button>
+  </header>
+
+  <main class="layout">
+    <section class="card">
+      <h2>个人信息与目标</h2>
+      <form id="profile-form" class="stack">
+        <div class="field-group">
+          <label for="weight">当前体重 (kg)</label>
+          <input type="number" step="0.1" id="weight" required />
+        </div>
+        <div class="field-group">
+          <label for="goal">目标</label>
+          <select id="goal">
+            <option value="fat-loss">减脂</option>
+            <option value="cardio">提升心肺</option>
+            <option value="balanced">综合体能</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label for="train-days">每周可训练天数</label>
+          <input type="number" id="train-days" min="1" max="7" value="4" />
+        </div>
+        <button type="submit">保存个人信息</button>
+      </form>
+      <p id="profile-status" class="muted"></p>
+    </section>
+
+    <section class="card">
+      <h2>添加训练记录</h2>
+      <form id="workout-form" class="grid">
+        <div class="field-group">
+          <label for="date">日期</label>
+          <input type="date" id="date" required />
+        </div>
+        <div class="field-group">
+          <label for="exercise">训练项目</label>
+          <input list="exercise-list" id="exercise" placeholder="如：跳绳" required />
+          <datalist id="exercise-list"></datalist>
+        </div>
+        <div class="field-group">
+          <label for="sets">组数</label>
+          <input type="number" id="sets" min="1" value="3" />
+        </div>
+        <div class="field-group">
+          <label for="reps">次数/每组</label>
+          <input type="number" id="reps" min="1" value="15" />
+        </div>
+        <div class="field-group">
+          <label for="duration">时长(分钟，可选)</label>
+          <input type="number" id="duration" min="0" step="0.1" placeholder="如未填按次数估算" />
+        </div>
+        <div class="field-group full">
+          <label for="notes">备注</label>
+          <input type="text" id="notes" placeholder="感觉、心率或其他" />
+        </div>
+        <button type="submit">记录训练并估算消耗</button>
+      </form>
+      <div class="stats" id="calorie-summary"></div>
+      <div id="workout-list" class="list"></div>
+    </section>
+
+    <section class="card">
+      <h2>体重记录</h2>
+      <form id="weight-form" class="grid">
+        <div class="field-group">
+          <label for="weight-date">日期</label>
+          <input type="date" id="weight-date" required />
+        </div>
+        <div class="field-group">
+          <label for="weight-entry">体重 (kg)</label>
+          <input type="number" step="0.1" id="weight-entry" required />
+        </div>
+        <button type="submit">添加体重</button>
+      </form>
+      <div id="weight-log" class="list"></div>
+    </section>
+
+    <section class="card">
+      <h2>智能训练计划</h2>
+      <form id="plan-form" class="grid">
+        <div class="field-group">
+          <label for="plan-goal">目标</label>
+          <select id="plan-goal">
+            <option value="fat-loss">减脂</option>
+            <option value="cardio">提升心肺</option>
+            <option value="balanced">综合体能</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label for="plan-days">每周训练天数</label>
+          <input type="number" id="plan-days" min="2" max="7" value="4" />
+        </div>
+        <button type="submit">生成基础计划</button>
+      </form>
+      <textarea id="plan-output" rows="6" class="plan"></textarea>
+      <p class="muted">计划可手动调整，保存后将覆盖本地模板。</p>
+      <button id="save-plan" class="ghost">保存当前计划</button>
+    </section>
+
+    <section class="card charts">
+      <div>
+        <h2>体重趋势</h2>
+        <canvas id="weight-chart" height="180"></canvas>
+      </div>
+      <div>
+        <h2>近 7 天消耗</h2>
+        <canvas id="calorie-chart" height="180"></canvas>
+      </div>
+    </section>
+
+    <section class="card">
+      <h2>导出与同步</h2>
+      <div class="actions">
+        <button id="export-csv">导出 CSV</button>
+        <button id="simulate-sync" class="ghost">预留云端同步</button>
+      </div>
+      <p class="muted">数据默认保存在浏览器本地存储；可将 CSV 导入 Excel 做进一步分析。</p>
+    </section>
+  </main>
+
+  <footer class="footer muted">
+    <p>数据仅保存在本地，加载轻量，随时可用。</p>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
