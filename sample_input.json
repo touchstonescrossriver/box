@@ -1,0 +1,12 @@
+{
+  "event_info": {
+    "event_name": "2026 产品发布会",
+    "event_time": "2026-06-18 14:00",
+    "event_location": "上海市浦东新区创新路 88 号",
+    "event_topic": "AI 驱动的业务增长",
+    "host_name": "未来科技有限公司",
+    "contact_info": "021-12345678",
+    "custom_message": "我们将分享核心产品路线与落地案例，诚邀您现场交流。"
+  },
+  "guests": ["张三", "李四", "王五"]
+}
